@@ -45,6 +45,10 @@ install: st
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
 	cp -f st $(DESTDIR)$(PREFIX)/bin
 	chmod 755 $(DESTDIR)$(PREFIX)/bin/st
+	# For compatibility with meme GUI library: https://gitlab.gnome.org/GNOME/glib/-/issues/338
+	# This means you can't install both this package and gnome-terminal at the same
+	# time on Arch.
+	ln -sf st $(DESTDIR)$(PREFIX)/bin/gnome-terminal
 	mkdir -p $(DESTDIR)$(MANPREFIX)/man1
 	sed "s/VERSION/$(VERSION)/g" < st.1 > $(DESTDIR)$(MANPREFIX)/man1/st.1
 	chmod 644 $(DESTDIR)$(MANPREFIX)/man1/st.1
@@ -55,6 +59,7 @@ install: st
 
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/st
+	rm -f $(DESTDIR)$(PREFIX)/bin/gnome-terminal
 	rm -f $(DESTDIR)$(APPPREFIX)/st.desktop
 	rm -f $(DESTDIR)$(MANPREFIX)/man1/st.1
 
